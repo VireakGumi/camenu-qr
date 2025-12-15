@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title') - Admin Panel</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+
+    <!-- Admin UI -->
+    <link href="{{ asset('css/admin-ui.css') }}" rel="stylesheet">
+    @stack('styles')
+</head>
+
+@php
+    $user = auth()->user();
+    $role = $user?->role;
+@endphp
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-admin">
+        <div class="container-fluid">
+
+            <!-- Brand -->
+            <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-3 text-decoration-none">
+                <img src="{{ asset('img/logo.png') }}" width="44" class="rounded-circle brand-logo" alt="CaMenu QR">
+                <div>
+                    <div class="small text-muted">Admin</div>
+                    <div class="fw-bold brand-title">Panel</div>
+                </div>
+            </a>
+
+            <!-- Right -->
+            <ul class="navbar-nav ms-auto align-items-center gap-2">
+
+                {{-- <!-- Theme toggle -->
+                <li class="nav-item">
+                    <button onclick="toggleTheme()" class="btn btn-theme-toggle" title="Toggle theme">
+                        <i class="bi bi-moon-stars"></i>
+                    </button>
+                </li> --}}
+
+                <!-- User dropdown -->
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-center gap-2" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ $user->avatar
+                                ? asset('storage/avatars/' . $user->avatar)
+                                : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
+                                class="rounded-circle" style="width:32px;height:32px;object-fit:cover;">
+                            <span>{{ $user->name }}</span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
+                                    <i class="bi bi-person me-2"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
+                                    <i class="bi bi-pencil me-2"></i> Edit Profile
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('admin.logout') }}">
+                                    @csrf
+                                    <button class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endauth
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= LAYOUT ================= -->
+    <div class="d-flex">
+
+        <!-- ========== SIDEBAR ========== -->
+        <aside class="sidebar">
+            <ul class="nav flex-column">
+
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                        href="{{ route('admin.dashboard') }}">
+                        <i class="bi bi-house"></i> Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
+                        href="{{ route('admin.categories.index') }}">
+                        <i class="bi bi-tags"></i> Categories
+                    </a>
+                </li>
+
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.restaurants.*') ? 'active' : '' }}"
+                        href="{{ route('admin.restaurants.index') }}">
+                        <i class="bi bi-shop"></i> Restaurants
+                    </a>
+                </li>
+
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                        href="{{ route('admin.users.index') }}">
+                        <i class="bi bi-people"></i> Users
+                    </a>
+                </li>
+
+                {{-- <li @if ($role->name !== 'admin') style="display: none;" @endif>
+                    <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}"
+                        href="{{ route('admin.menus.index') }}">
+                        <i class="bi bi-card-list"></i> Menus
+                    </a>
+                </li> --}}
+
+                <li @if ($role->name !== 'admin') style="display: none;" @endif>
+                    <a class="nav-link {{ request()->routeIs('admin.restaurant-subscriptions.*') ? 'active' : '' }}"
+                        href="{{ route('admin.restaurant-subscriptions.index') }}">
+                        <i class="bi bi-card-checklist"></i> Subscriptions
+                    </a>
+                </li>
+
+                <li @if ($role->name !== 'admin') style="display: none;" @endif>
+                    <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}"
+                        href="{{ route('admin.subscription-plans.index') }}">
+                        <i class="bi bi-stickies"></i>Plans
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <div class="sidebar-footer">
+                Version 1.0
+            </div>
+        </aside>
+
+        <!-- ========== CONTENT ========== -->
+        <main class="content-area flex-fill">
+            <div class="container-fluid">
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @yield('content')
+            </div>
+        </main>
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        }
+
+        // Init theme
+        (() => {
+            const saved = localStorage.getItem('theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+
+    @stack('scripts')
+
+</body>
+
+</html>
