@@ -50,6 +50,7 @@ class CategoryAdminController extends Controller
         return view('admin.categories.create', compact('restaurants'));
     }
 
+
     public function store(Request $request)
     {
         $user = $request->user() ?: auth()->user();
@@ -59,18 +60,46 @@ class CategoryAdminController extends Controller
             'restaurant_id' => 'required|exists:restaurants,id',
         ]);
 
-        // If owner, ensure restaurant belongs to them
-        if ($user->role_id == Role::OWNER) {
-            $owns = Restaurant::where('id', $request->restaurant_id)->where('owner_id', $user->id)->exists();
-            if (!$owns) {
-                return redirect()->back()->withErrors(['restaurant_id' => 'Invalid restaurant selection'])->withInput();
-            }
+        // Get restaurant
+        $restaurant = Restaurant::with('activeSubscription')
+            ->findOrFail($request->restaurant_id);
+
+        // Owner check
+        if ($user->role_id == Role::OWNER && $restaurant->owner_id !== $user->id) {
+            return back()->withErrors([
+                'restaurant_id' => 'Invalid restaurant selection'
+            ])->withInput();
         }
 
-        Category::create($request->only(['name', 'restaurant_id']));
+        // Check active subscription
+        $subscription = $restaurant->activeSubscription;
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category created');
+        if (!$subscription) {
+            return back()->withErrors([
+                'subscription' => 'No active subscription found'
+            ])->withInput();
+        }
+
+        // Check feature permission
+        $features = $subscription->subscriptionPlan->features ?? [];
+
+        if (!in_array('categories', $features)) {
+            return back()->withErrors([
+                'subscription' => 'Your subscription plan does not allow categories'
+            ])->withInput();
+        }
+
+        // Create category
+        Category::create([
+            'name' => $request->name,
+            'restaurant_id' => $restaurant->id,
+        ]);
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'Category created successfully');
     }
+
 
     public function edit(Request $request, $id)
     {

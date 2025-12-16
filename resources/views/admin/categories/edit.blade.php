@@ -7,15 +7,36 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            {{-- Page Header --}}
-            <div class="mb-4">
-                <h3 class="fw-bold mb-1">Edit Category</h3>
-                <p class="text-muted mb-0">
-                    Update category information
-                </p>
+            {{-- ================= PAGE HEADER ================= --}}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">Edit Category</h3>
+                    <p class="text-muted mb-0">
+                        Update category information
+                    </p>
+                </div>
+
+                <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
+                    ← Back
+                </a>
             </div>
 
-            {{-- Card --}}
+            {{-- ================= ERRORS ================= --}}
+            @if ($errors->any())
+                <div class="alert alert-danger shadow-sm">
+                    <div class="fw-semibold mb-2">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        Please fix the following issues:
+                    </div>
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- ================= CARD ================= --}}
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4">
 
@@ -23,22 +44,30 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Category Name --}}
+                        {{-- CATEGORY NAME --}}
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Category Name <span class="text-danger">*</span>
                             </label>
-                            <input type="text" name="name" class="form-control"
-                                value="{{ old('name', $category->name) }}" required>
+
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name', $category->name) }}" placeholder="e.g. Drinks, Main Course" required>
+
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        {{-- Restaurant --}}
+                        {{-- RESTAURANT --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
                                 Restaurant <span class="text-danger">*</span>
                             </label>
-                            <select name="restaurant_id" class="form-select" required>
+
+                            <select name="restaurant_id" class="form-select @error('restaurant_id') is-invalid @enderror"
+                                required>
                                 <option value="">— Select Restaurant —</option>
+
                                 @foreach ($restaurants as $r)
                                     <option value="{{ $r->id }}"
                                         {{ old('restaurant_id', $category->restaurant_id) == $r->id ? 'selected' : '' }}>
@@ -46,20 +75,35 @@
                                     </option>
                                 @endforeach
                             </select>
+
+                            @error('restaurant_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                             <div class="form-text">
-                                Changing the restaurant will move this category
+                                Changing the restaurant will move this category to another restaurant
                             </div>
                         </div>
 
-                        {{-- Actions --}}
-                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
-                                ← Back
-                            </a>
+                        {{-- DIVIDER --}}
+                        <hr class="my-4">
 
-                            <button class="btn btn-primary px-4">
-                                Save Changes
-                            </button>
+                        {{-- ACTIONS --}}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                Category ID #{{ $category->id }}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
+                                    Cancel
+                                </a>
+
+                                <button class="btn btn-outline-warning px-4">
+                                    <i class="bi bi-save"></i>
+                                    Save Changes
+                                </button>
+                            </div>
                         </div>
 
                     </form>
