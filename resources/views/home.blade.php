@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="utf-8">
-    <title>CaMenu-QR — Built for Modern Restaurants</title>
+    <title>{{ __('ui.landing_title') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description"
-        content="A modern QR menu system that helps restaurants move faster, look professional, and sell smarter.">
+    <meta name="description" content="{{ __('ui.landing_description') }}">
 
     <link rel="icon" href="{{ asset('img/logo.png') }}">
 
@@ -52,12 +51,10 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* NAV */
         .navbar {
             backdrop-filter: blur(12px);
         }
 
-        /* BUTTON */
         .btn-main {
             background: linear-gradient(135deg, var(--primary), #6f4427);
             color: #fff;
@@ -74,7 +71,6 @@
             box-shadow: 0 30px 80px rgba(139, 94, 60, .45);
         }
 
-        /* HERO */
         .hero {
             background:
                 radial-gradient(circle at right, rgba(214, 165, 106, .25), transparent 55%),
@@ -87,7 +83,6 @@
             max-width: 560px;
         }
 
-        /* STORY BLOCK */
         .story-box {
             background: #fff;
             padding: 56px;
@@ -95,7 +90,6 @@
             box-shadow: 0 25px 70px rgba(0, 0, 0, .08);
         }
 
-        /* FLOW */
         .flow-step {
             background: #fff;
             padding: 44px;
@@ -110,7 +104,6 @@
             color: var(--primary);
         }
 
-        /* DARK SECTION */
         .section-dark {
             background: linear-gradient(135deg, var(--bg-dark), #1e293b);
             color: #fff;
@@ -120,19 +113,12 @@
             color: #cbd5e1;
         }
 
-        /* PRICING */
         .price-card {
             background: #fff;
             border-radius: 40px;
             padding: 64px;
             box-shadow: 0 40px 120px rgba(0, 0, 0, .15);
             height: 100%;
-            transition: .3s;
-        }
-
-        .price-card.active {
-            border: 4px solid var(--primary);
-            transform: scale(1.05);
         }
 
         .price {
@@ -141,7 +127,6 @@
             color: var(--primary);
         }
 
-        /* CTA */
         .cta {
             background: linear-gradient(135deg, var(--primary), #6f4427);
             color: #fff;
@@ -160,48 +145,71 @@
 
 <body>
 
-    {{-- NAV --}}
     <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
-        <div class="container">
-            <!-- Brand -->
+        <div class="container d-flex justify-content-between align-items-center">
+            {{-- Brand --}}
             <a href="{{ route('home') }}" class="d-flex align-items-center gap-3 text-decoration-none">
-                <img src="{{ asset('img/logo.png') }}" width="65" class="rounded-circle brand-logo" alt="CaMenu QR">
+                <img src="{{ asset('img/logo.png') }}" width="65" class="rounded-circle" alt="CaMenu-QR">
             </a>
-            <button class="btn-main" data-bs-toggle="modal" data-bs-target="#registerModal">
-                Get Started
-            </button>
+
+            {{-- Right actions --}}
+            <div class="d-flex align-items-center gap-3">
+
+                {{-- Language switch --}}
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                        {{ app()->getLocale() === 'km' ? '🇰🇭 KM' : '🇺🇸 EN' }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">
+                                🇺🇸 English
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'km') }}">
+                                🇰🇭 ខ្មែរ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                {{-- CTA --}}
+                <button class="btn-main" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    {{ __('ui.get_started') }}
+                </button>
+
+            </div>
         </div>
     </nav>
+
 
     {{-- HERO --}}
     <section class="hero">
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-7">
-                    <small class="text-muted">Built for restaurants, not tech people</small>
+                    <small class="text-muted">{{ __('ui.hero_tagline') }}</small>
+
                     <h1 class="mt-3">
-                        Your Menu.<br>
-                        <span class="gradient-text">Faster. Smarter. Digital.</span>
+                        {{ __('ui.hero_title_1') }}<br>
+                        <span class="gradient-text">{{ __('ui.hero_title_2') }}</span>
                     </h1>
+
                     <p class="mt-4">
-                        CaMenu-QR replaces paper menus with a fast, modern QR experience
-                        that customers love and owners control.
+                        {{ __('ui.hero_description') }}
                     </p>
 
-                    <div class="mt-4">
-                        <button class="btn-main" data-bs-toggle="modal" data-bs-target="#registerModal">
-                            Start My Digital Menu
-                        </button>
-                    </div>
+                    <button class="btn-main mt-3" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        {{ __('ui.start_digital_menu') }}
+                    </button>
                 </div>
 
                 <div class="col-lg-5">
                     <div class="story-box">
-                        ❌ Printing menus again and again
-                        <br><br>
-                        ❌ Prices changing but menus outdated
-                        <br><br>
-                        ✅ One QR. One dashboard. Always updated.
+                        ❌ {{ __('ui.problem_printing') }}<br><br>
+                        ❌ {{ __('ui.problem_outdated') }}<br><br>
+                        ✅ {{ __('ui.solution_one_qr') }}
                     </div>
                 </div>
             </div>
@@ -211,57 +219,32 @@
     {{-- FLOW --}}
     <section>
         <div class="container text-center">
-            <h2>How Restaurants Win with CaMenu-QR</h2>
-            <p class="text-muted mb-5">Simple process. Real impact.</p>
+            <h2>{{ __('ui.how_it_works_title') }}</h2>
+            <p class="text-muted mb-5">{{ __('ui.how_it_works_subtitle') }}</p>
 
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="flow-step">
                         <span>1</span>
-                        <h5 class="mt-3">Create Menu</h5>
-                        <p>Add items, prices & categories in minutes.</p>
+                        <h5 class="mt-3">{{ __('ui.flow_create_menu') }}</h5>
+                        <p>{{ __('ui.flow_create_menu_desc') }}</p>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="flow-step">
                         <span>2</span>
-                        <h5 class="mt-3">Place QR</h5>
-                        <p>On tables, counters, or takeaway bags.</p>
+                        <h5 class="mt-3">{{ __('ui.flow_place_qr') }}</h5>
+                        <p>{{ __('ui.flow_place_qr_desc') }}</p>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="flow-step">
                         <span>3</span>
-                        <h5 class="mt-3">Sell Faster</h5>
-                        <p>Customers decide quicker. Staff works less.</p>
+                        <h5 class="mt-3">{{ __('ui.flow_sell_faster') }}</h5>
+                        <p>{{ __('ui.flow_sell_faster_desc') }}</p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- TRUST --}}
-    <section class="section-dark">
-        <div class="container text-center">
-            <h2>Trusted by Growing Restaurants</h2>
-            <p class="mb-5">
-                Built to scale with your business — from one outlet to many.
-            </p>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h2 class="gradient-text">100+</h2>
-                    Restaurants Ready
-                </div>
-                <div class="col-md-4">
-                    <h2 class="gradient-text">0$</h2>
-                    Printing Cost
-                </div>
-                <div class="col-md-4">
-                    <h2 class="gradient-text">24/7</h2>
-                    Menu Access
                 </div>
             </div>
         </div>
@@ -270,16 +253,16 @@
     {{-- PRICING --}}
     <section id="pricing">
         <div class="container text-center">
-            <h2>Choose Your Growth Plan</h2>
-            <p class="text-muted mb-5">Upgrade anytime. Cancel anytime.</p>
+            <h2>{{ __('ui.pricing_title') }}</h2>
+            <p class="text-muted mb-5">{{ __('ui.pricing_subtitle') }}</p>
 
             <div class="row g-4 justify-content-center">
                 @foreach ($plans as $plan)
                     <div class="col-md-4">
-                        <div class="price-card {{ $loop->iteration === 2 ? 'active' : '' }}">
+                        <div class="price-card">
                             <h5>{{ $plan->name }}</h5>
                             <div class="price">${{ number_format($plan->price, 2) }}</div>
-                            <p class="text-muted">{{ $plan->duration_days }} days</p>
+                            <p class="text-muted">{{ $plan->duration_days }} {{ __('ui.days') }}</p>
 
                             <ul class="text-start mt-4">
                                 @foreach ($plan->features as $f)
@@ -289,7 +272,7 @@
 
                             <button class="btn-main w-100 mt-4" data-bs-toggle="modal" data-bs-target="#registerModal"
                                 data-plan="{{ $plan->id }}">
-                                Start with {{ $plan->name }}
+                                {{ __('ui.start_with') }} {{ $plan->name }}
                             </button>
                         </div>
                     </div>
@@ -298,78 +281,16 @@
         </div>
     </section>
 
-    {{-- FINAL CTA --}}
+    {{-- CTA --}}
     <section>
         <div class="container">
             <div class="cta">
-                <h2>Your Menu Is the First Impression</h2>
-                <p>Make it modern. Make it fast. Make it digital.</p>
+                <h2>{{ __('ui.cta_title') }}</h2>
+                <p>{{ __('ui.cta_subtitle') }}</p>
+
                 <button class="btn btn-light btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#registerModal">
-                    Create My Menu Now
+                    {{ __('ui.create_menu_now') }}
                 </button>
-            </div>
-        </div>
-    </section>
-
-    {{-- SOCIAL MEDIA / CAMBODIA FOCUS --}}
-    <section style="background: var(--bg-soft);">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <small class="text-muted">🇰🇭 Built for Phnom Penh Restaurants</small>
-
-                    <h2 class="mt-3">
-                        Built for<br>
-                        <span class="gradient-text">Social Media Marketing</span>
-                    </h2>
-
-                    <p class="text-muted mt-4">
-                        In Cambodia, customers find restaurants through
-                        Facebook, Instagram, TikTok, and direct messages.
-                        CaMenu-QR is designed to work perfectly with
-                        the platforms Phnom Penh restaurants already use.
-                    </p>
-
-                    <p class="text-muted">
-                        One menu link. Share it everywhere.
-                    </p>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="story-box">
-                        <strong>Share your menu on:</strong>
-                        <hr>
-
-                        <a href="https://www.facebook.com/" target="_blank"
-                            class="d-flex align-items-center gap-3 mb-3 text-decoration-none text-dark">
-                            <i class="bi bi-facebook fs-3 text-primary"></i>
-                            <span>Facebook Pages & Groups</span>
-                        </a>
-
-                        <a href="https://www.instagram.com/" target="_blank"
-                            class="d-flex align-items-center gap-3 mb-3 text-decoration-none text-dark">
-                            <i class="bi bi-instagram fs-3 text-danger"></i>
-                            <span>Instagram Bio & Stories</span>
-                        </a>
-
-                        <a href="https://www.tiktok.com/" target="_blank"
-                            class="d-flex align-items-center gap-3 mb-3 text-decoration-none text-dark">
-                            <i class="bi bi-tiktok fs-3"></i>
-                            <span>TikTok Profile & Videos</span>
-                        </a>
-
-                        <a href="mailto:info@camenuqr.com"
-                            class="d-flex align-items-center gap-3 text-decoration-none text-dark">
-                            <i class="bi bi-envelope fs-3 text-secondary"></i>
-                            <span>Email (Gmail, business inquiries)</span>
-                        </a>
-
-                        <hr>
-                        <small class="text-muted">
-                            Customers open instantly — no app, no download.
-                        </small>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -378,15 +299,17 @@
         © {{ date('Y') }} CaMenu-QR
     </footer>
 
-    {{-- REGISTER MODAL (unchanged logic) --}}
+    {{-- REGISTER MODAL --}}
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-4 rounded-4">
-                <form method="POST">
+                <form method="POST" action="{{ route('register.order') }}">
                     @csrf
-                    <h5>Create Account</h5>
-                    <select class="form-select mt-3" id="planSelect" name="subscription_plan_id">
-                        <option value="">Select plan</option>
+
+                    <h5>{{ __('ui.create_shop_subscribe') }}</h5>
+
+                    <select class="form-select mt-3" id="planSelect" name="plan_id" required>
+                        <option value="">{{ __('ui.select_plan') }}</option>
                         @foreach ($plans as $plan)
                             <option value="{{ $plan->id }}" data-price="{{ number_format($plan->price, 2) }}">
                                 {{ $plan->name }} — ${{ number_format($plan->price, 2) }}
@@ -396,11 +319,16 @@
 
                     <input id="planPrice" class="form-control mt-3" readonly>
 
-                    <input class="form-control mt-3" name="restaurant_name" placeholder="Restaurant Name">
-                    <input class="form-control mt-3" type="name" name="name" placeholder="Name">
-                    <input class="form-control mt-3" name="email" placeholder="Email">
+                    <input class="form-control mt-3" name="restaurant_name" placeholder="{{ __('ui.shop_name') }}"
+                        required>
+                    <input class="form-control mt-3" name="phone" placeholder="{{ __('ui.phone') }}" required>
+                    <input class="form-control mt-3" name="address" placeholder="{{ __('ui.address') }}" required>
+                    <input class="form-control mt-3" type="email" name="email"
+                        placeholder="{{ __('ui.owner_email') }}" required>
 
-                    <button class="btn-main w-100 mt-4">Continue</button>
+                    <button class="btn-main w-100 mt-4">
+                        {{ __('ui.continue_payment') }}
+                    </button>
                 </form>
             </div>
         </div>
@@ -408,27 +336,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const modal = document.getElementById('registerModal');
         const planSelect = document.getElementById('planSelect');
         const planPrice = document.getElementById('planPrice');
-        const form = modal.querySelector('form');
-
-        document.querySelectorAll('[data-plan]').forEach(btn => {
-            btn.onclick = () => {
-                planSelect.value = btn.dataset.plan;
-                planSelect.dispatchEvent(new Event('change'));
-            };
-        });
 
         planSelect.onchange = () => {
             const price = planSelect.selectedOptions[0]?.dataset.price;
             planPrice.value = price ? '$' + price : '';
         };
-
-        modal.addEventListener('hidden.bs.modal', () => {
-            form.reset();
-            planPrice.value = '';
-        });
     </script>
 
 </body>

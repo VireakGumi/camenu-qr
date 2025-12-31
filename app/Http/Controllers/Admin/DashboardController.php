@@ -26,7 +26,8 @@ class DashboardController extends Controller
                     fn($q) =>
                     $q->where('owner_id', $user->id)
                 )->count(),
-                'users' => \App\Models\User::where('restaurant_id', $user->restaurant_id)->count(),
+                'users' => \App\Models\User::whereHas('restaurant',                     fn($q) =>
+                $q->where('owner_id', $user->id))->count(),
             ];
         }
 

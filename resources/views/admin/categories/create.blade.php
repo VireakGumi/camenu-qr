@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Create Category')
+@section('title', __('ui.create_category'))
 
 @section('content')
 
@@ -10,14 +10,14 @@
             {{-- ================= PAGE HEADER ================= --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h3 class="fw-bold mb-1">Create Category</h3>
+                    <h3 class="fw-bold mb-1">{{ __('ui.create_category') }}</h3>
                     <p class="text-muted mb-0">
-                        Add a new category for menu items
+                        {{ __('ui.create_category_desc') }}
                     </p>
                 </div>
 
                 <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
-                    ← Back
+                    ← {{ __('ui.back') }}
                 </a>
             </div>
 
@@ -26,7 +26,7 @@
                 <div class="alert alert-danger shadow-sm">
                     <div class="fw-semibold mb-2">
                         <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                        Please fix the following issues:
+                        {{ __('ui.fix_errors') }}
                     </div>
                     <ul class="mb-0 ps-3">
                         @foreach ($errors->all() as $error)
@@ -46,7 +46,7 @@
                         {{-- CATEGORY NAME --}}
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Category Name <span class="text-danger">*</span>
+                                {{ __('ui.category_name') }} <span class="text-danger">*</span>
                             </label>
 
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -57,15 +57,15 @@
                             @enderror
                         </div>
 
-                        {{-- RESTAURANT --}}
+                        {{-- SHOP --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Restaurant <span class="text-danger">*</span>
+                                {{ __('ui.shop') }} <span class="text-danger">*</span>
                             </label>
 
                             <select name="restaurant_id" class="form-select @error('restaurant_id') is-invalid @enderror"
                                 required>
-                                <option value="">— Select Restaurant —</option>
+                                <option value="">— {{ __('ui.select_shop') }} —</option>
 
                                 @foreach ($restaurants as $restaurant)
                                     <option value="{{ $restaurant->id }}"
@@ -80,27 +80,26 @@
                             @enderror
 
                             <div class="form-text">
-                                Category will be available for menu items in this restaurant
+                                {{ __('ui.category_shop_help') }}
                             </div>
                         </div>
 
-                        {{-- DIVIDER --}}
                         <hr class="my-4">
 
                         {{-- ACTIONS --}}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="text-muted small">
-                                Categories depend on your subscription plan
+                                {{ __('ui.category_plan_note') }}
                             </div>
 
                             <div class="d-flex gap-2">
                                 <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
-                                    Cancel
+                                    {{ __('ui.cancel') }}
                                 </a>
 
                                 <button class="btn btn-outline-warning px-4">
                                     <i class="bi bi-plus-circle"></i>
-                                    Create Category
+                                    {{ __('ui.create_category') }}
                                 </button>
                             </div>
                         </div>

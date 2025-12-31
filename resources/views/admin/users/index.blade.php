@@ -1,20 +1,20 @@
 @extends('admin.layout')
 
-@section('title', 'Users')
+@section('title', __('ui.users'))
 
 @section('content')
 
     {{-- ================= PAGE HEADER ================= --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">Users</h3>
+            <h3 class="fw-bold mb-1">{{ __('ui.users') }}</h3>
             <p class="text-muted mb-0">
-                Manage system users and permissions
+                {{ __('ui.manage_users') }}
             </p>
         </div>
 
         <a href="{{ route('admin.users.create') }}" class="btn btn-outline-warning">
-            <i class="bi bi-plus-circle"></i> New User
+            <i class="bi bi-plus-circle"></i> {{ __('ui.new_user') }}
         </a>
     </div>
 
@@ -26,11 +26,11 @@
             <form class="row g-2 align-items-center mb-4" method="GET" action="{{ route('admin.users.index') }}">
                 <div class="col-md-10">
                     <input type="text" name="q" value="{{ request('q') }}" class="form-control"
-                        placeholder="Search by name or email">
+                        placeholder="{{ __('ui.search_users') }}">
                 </div>
                 <div class="col-md-2 d-grid">
                     <button class="btn btn-outline-warning">
-                        <i class="bi bi-search"></i> Search
+                        <i class="bi bi-search"></i> {{ __('ui.search') }}
                     </button>
                 </div>
             </form>
@@ -41,11 +41,11 @@
                     <thead>
                         <tr>
                             <th style="width:60px;">#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created</th>
-                            <th class="text-end" style="width:160px;">Actions</th>
+                            <th>{{ __('ui.name') }}</th>
+                            <th>{{ __('ui.email') }}</th>
+                            <th>{{ __('ui.role') }}</th>
+                            <th>{{ __('ui.created') }}</th>
+                            <th class="text-end" style="width:160px;">{{ __('ui.actions') }}</th>
                         </tr>
                     </thead>
 
@@ -54,8 +54,8 @@
                             <tr>
                                 <td class="text-muted">{{ $user->id }}</td>
 
-                                <td>
-                                    <div class="fw-semibold">{{ $user->name }}</div>
+                                <td class="fw-semibold">
+                                    {{ $user->name }}
                                 </td>
 
                                 <td class="text-muted">
@@ -76,20 +76,21 @@
                                 <td class="text-end">
                                     <div class="d-inline-flex gap-1">
                                         <a href="{{ route('admin.users.show', $user->id) }}"
-                                            class="btn btn-sm btn-outline-warning" title="View">
+                                            class="btn btn-sm btn-outline-warning" title="{{ __('ui.view') }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
                                         <a href="{{ route('admin.users.edit', $user->id) }}"
-                                            class="btn btn-sm btn-outline-warning" title="Edit">
+                                            class="btn btn-sm btn-outline-warning" title="{{ __('ui.edit') }}">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
                                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                            onsubmit="return confirm('Delete this user?');">
+                                            onsubmit="return confirm('{{ __('ui.delete_user_confirm') }}');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-outline-warning btn-delete" title="Delete">
+                                            <button class="btn btn-sm btn-outline-warning btn-delete"
+                                                title="{{ __('ui.delete') }}">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
@@ -99,7 +100,7 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="text-center py-5 text-muted">
-                                    No users found.
+                                    {{ __('ui.no_users_found') }}
                                 </td>
                             </tr>
                         @endforelse
@@ -110,9 +111,11 @@
             {{-- Footer --}}
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <div class="text-muted small">
-                    Showing {{ $users->firstItem() ?? 0 }}
+                    {{ __('ui.showing') }}
+                    {{ $users->firstItem() ?? 0 }}
                     – {{ $users->lastItem() ?? 0 }}
-                    of {{ $users->total() ?? 0 }}
+                    {{ __('ui.of') }}
+                    {{ $users->total() ?? 0 }}
                 </div>
 
                 <div>

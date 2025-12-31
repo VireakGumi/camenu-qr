@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Restaurant')
+@section('title', __('ui.shops'))
 
 @php
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -10,12 +10,12 @@
     {{-- ================= PAGE HEADER ================= --}}
     <div class="mb-4">
         <h3 class="fw-bold mb-1">{{ $restaurant->name }}</h3>
-        <p class="text-muted mb-0">Restaurant details & QR menu</p>
+        <p class="text-muted mb-0">{{ __('ui.shop_details_qr') }}</p>
     </div>
 
     <div class="row g-4 mb-4">
 
-        {{-- ================= RESTAURANT INFO ================= --}}
+        {{-- ================= SHOP INFO ================= --}}
         <div class="col-12 col-md-6">
             <div class="card h-100">
                 <div class="card-body p-4">
@@ -30,7 +30,7 @@
                         <div>
                             <h5 class="fw-semibold mb-1">{{ $restaurant->name }}</h5>
                             <span class="badge bg-success-subtle text-success">
-                                Active Restaurant
+                                {{ __('ui.active_shop') }}
                             </span>
                         </div>
                     </div>
@@ -58,15 +58,15 @@
                     <div class="d-flex gap-2">
                         <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}"
                             class="btn btn-outline-warning btn-sm">
-                            <i class="bi bi-pencil"></i> Edit
+                            <i class="bi bi-pencil"></i> {{ __('ui.edit') }}
                         </a>
 
                         <form action="{{ route('admin.restaurants.destroy', $restaurant->id) }}" method="POST"
-                            onsubmit="return confirm('Delete this restaurant?');">
+                            onsubmit="return confirm('{{ __('ui.delete_shop_confirm') }}');">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-outline-warning btn-sm">
-                                <i class="bi bi-trash"></i> Delete
+                                <i class="bi bi-trash"></i> {{ __('ui.delete') }}
                             </button>
                         </form>
                     </div>
@@ -80,58 +80,31 @@
             <div class="card h-100">
                 <div class="card-body text-center p-4 d-flex flex-column justify-content-center">
 
-                    <h6 class="fw-semibold mb-3">QR Menu</h6>
+                    <h6 class="fw-semibold mb-3">{{ __('ui.qr_menu') }}</h6>
 
                     <div class="bg-white rounded-4 p-3 mx-auto mb-3" style="box-shadow: inset 0 0 0 1px var(--border);">
                         {!! QrCode::size(180)->generate(route('public.menu.show', $restaurant->slug)) !!}
                     </div>
 
                     <p class="small text-muted mb-3">
-                        Scan to view the restaurant menu
+                        {{ __('ui.scan_view_menu') }}
                     </p>
 
                     <div class="d-flex justify-content-center gap-2">
                         <a href="{{ route('public.menu.show', $restaurant->slug) }}" target="_blank"
                             class="btn btn-outline-warning btn-sm">
-                            Open Menu
+                            {{ __('ui.open_menu') }}
                         </a>
 
                         <button class="btn btn-outline-warning btn-sm" onclick="downloadPrintQR()">
-                            Download QR
+                            {{ __('ui.download_qr') }}
                         </button>
 
                         <button class="btn btn-outline-warning btn-sm" onclick="printQR()">
-                            Print QR
+                            {{ __('ui.print_qr') }}
                         </button>
                     </div>
 
-                </div>
-            </div>
-        </div>
-
-        {{-- ================= PRINT QR (OFF-SCREEN) ================= --}}
-        <div id="print-area" style=" position: fixed; top: -9999px; left: -9999px; z-index: -1; ">
-            <div
-                style=" width: 100%; max-width: 420px; margin: 0 auto; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; padding: 36px 28px; background: #ffffff; border-radius: 20px; box-shadow: 0 12px 30px rgba(0,0,0,.12); ">
-                {{-- Accent --}} <div
-                    style=" width: 60px; height: 5px; background: #198754; border-radius: 999px; margin: 0 auto 20px; ">
-                </div> {{-- Logo --}} @if ($restaurant->logo)
-                    <img src="{{ asset('storage/logos/' . $restaurant->logo) }}"
-                        style="max-width:110px;margin-bottom:14px;object-fit:contain;">
-                @endif {{-- Name --}} <h2
-                    style="margin:0 0 6px;font-size:22px;font-weight:700;">
-                    {{ $restaurant->name }} </h2>
-                <p style="margin:0 0 20px;font-size:13px;color:#6c757d;"> Scan to view menu </p> {{-- QR --}}
-                <div
-                    style=" display:inline-block; padding:16px; background:#fff; border-radius:16px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 8px 20px rgba(0,0,0,.15); margin-bottom:18px; ">
-                    {!! QrCode::format('svg')->size(240)->generate(route('public.menu.show', $restaurant->slug)) !!} </div> {{-- Address --}} <p
-                    style="margin:0;font-size:12px;color:#868e96;line-height:1.5;"> {{ $restaurant->address }}
-                    @if ($restaurant->phone)
-                        <br>{{ $restaurant->phone }}
-                    @endif
-                </p> {{-- Divider --}} <div style="height:1px;background:#eee;margin:22px 0 14px;">
-                </div> {{-- Branding --}} <div style="font-size:11px;color:#adb5bd;letter-spacing:.4px;"> Powered by
-                    <strong style="color:#495057;">CaMenu-QR</strong>
                 </div>
             </div>
         </div>
@@ -145,7 +118,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-semibold mb-0">
-                        Menu Items
+                        {{ __('ui.menu_items') }}
                         <span class="text-muted small">#{{ $menu->id }}</span>
                     </h6>
 
@@ -154,7 +127,7 @@
                         'restaurant_id' => $restaurant->id,
                     ]) }}"
                         class="btn btn-outline-warning btn-sm">
-                        <i class="bi bi-plus"></i> Add Item
+                        <i class="bi bi-plus"></i> {{ __('ui.add_item') }}
                     </a>
                 </div>
 
@@ -163,10 +136,10 @@
                         <thead>
                             <tr>
                                 <th style="width:70px;">ID</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th style="width:120px;">Price</th>
-                                <th class="text-end" style="width:120px;">Actions</th>
+                                <th>{{ __('ui.name') }}</th>
+                                <th>{{ __('ui.categories') }}</th>
+                                <th style="width:120px;">{{ __('ui.price') }}</th>
+                                <th class="text-end" style="width:120px;">{{ __('ui.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -184,7 +157,7 @@
                                             </a>
 
                                             <form action="{{ route('admin.menu-items.destroy', $item->id) }}"
-                                                method="POST" onsubmit="return confirm('Delete this item?');">
+                                                method="POST" onsubmit="return confirm('{{ __('ui.delete') }}?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-outline-warning btn-sm">
@@ -197,7 +170,7 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="text-center text-muted py-4">
-                                        No menu items.
+                                        {{ __('ui.no_menu_items') }}
                                     </td>
                                 </tr>
                             @endforelse
@@ -209,39 +182,7 @@
         </div>
     @empty
         <div class="alert alert-info">
-            No menus found for this restaurant.
+            {{ __('ui.no_menus_found') }}
         </div>
     @endforelse
-
-    @push('scripts')
-        {{-- REQUIRED --}}
-        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-        <script>
-            function downloadPrintQR() {
-                const printArea = document.getElementById('print-area');
-                html2canvas(printArea, {
-                    backgroundColor: '#ffffff',
-                    scale: 2,
-                    useCORS: true
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.href = canvas.toDataURL('image/png');
-                    link.download = '{{ Str::slug($restaurant->name) }}-table-qr.png';
-                    link.click();
-                });
-            }
-
-            function printQR() {
-                const content = document.getElementById('print-area').innerHTML;
-                const win = window.open('', '', 'width=800,height=1000');
-                win.document.write(
-                    `<html><head><title>Print QR</title><style> body { margin:0; font-family:Arial,sans-serif; } </style></head><body>${content}</body></html>`
-                );
-                win.document.close();
-                win.focus();
-                win.print();
-                win.close();
-            }
-        </script>
-    @endpush
 @endsection

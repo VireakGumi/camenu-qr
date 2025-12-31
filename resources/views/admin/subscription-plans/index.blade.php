@@ -1,20 +1,20 @@
 @extends('admin.layout')
 
-@section('title', 'Subscription Plans')
+@section('title', __('ui.subscription_plans'))
 
 @section('content')
 
     {{-- ================= PAGE HEADER ================= --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">Subscription Plans</h3>
+            <h3 class="fw-bold mb-1">{{ __('ui.subscription_plans') }}</h3>
             <p class="text-muted mb-0">
-                Manage pricing plans and feature limits for restaurants
+                {{ __('ui.subscription_plans_desc') }}
             </p>
         </div>
 
         <a href="{{ route('admin.subscription-plans.create') }}" class="btn btn-outline-warning">
-            <i class="bi bi-plus-circle"></i> Create Plan
+            <i class="bi bi-plus-circle"></i> {{ __('ui.create_plan') }}
         </a>
     </div>
 
@@ -34,28 +34,27 @@
                     <thead>
                         <tr>
                             <th style="width:60px;">#</th>
-                            <th>Plan</th>
-                            <th>Price</th>
-                            <th>Duration</th>
-                            <th>Menu Limit</th>
-                            <th>Staff Limit</th>
-                            <th class="text-end" style="width:200px;">Actions</th>
+                            <th>{{ __('ui.plan') }}</th>
+                            <th>{{ __('ui.price') }}</th>
+                            <th>{{ __('ui.duration') }}</th>
+                            <th>{{ __('ui.menu_limit') }}</th>
+                            <th>{{ __('ui.staff_limit') }}</th>
+                            <th class="text-end" style="width:200px;">
+                                {{ __('ui.actions') }}
+                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @forelse($plans as $plan)
                             <tr>
-
-                                <td class="text-muted">
-                                    {{ $plan->id }}
-                                </td>
+                                <td class="text-muted">{{ $plan->id }}</td>
 
                                 {{-- Plan --}}
                                 <td>
                                     <div class="fw-semibold">{{ $plan->name }}</div>
                                     <div class="small text-muted">
-                                        {{ $plan->duration_days ? $plan->duration_days . ' days validity' : 'No expiration' }}
+                                        {{ $plan->duration_days ? $plan->duration_days . ' ' . __('ui.days_validity') : __('ui.no_expiration') }}
                                     </div>
                                 </td>
 
@@ -67,7 +66,7 @@
                                 {{-- Duration --}}
                                 <td>
                                     <span class="badge bg-secondary-subtle text-secondary">
-                                        {{ $plan->duration_days }} days
+                                        {{ $plan->duration_days }} {{ __('ui.days') ?? 'days' }}
                                     </span>
                                 </td>
 
@@ -76,7 +75,6 @@
                                     <span class="badge bg-primary-subtle text-primary">
                                         {{ $plan->menu_limit }}
                                     </span>
-
                                 </td>
 
                                 {{-- Staff limit --}}
@@ -84,28 +82,28 @@
                                     <span class="badge bg-info-subtle text-info">
                                         {{ $plan->staff_limit }}
                                     </span>
-
                                 </td>
 
                                 {{-- Actions --}}
                                 <td class="text-end">
                                     <div class="d-inline-flex gap-1">
                                         <a href="{{ route('admin.subscription-plans.show', $plan->id) }}"
-                                            class="btn btn-sm btn-outline-warning" title="View">
+                                            class="btn btn-sm btn-outline-warning" title="{{ __('ui.view') }}">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
                                         <a href="{{ route('admin.subscription-plans.edit', $plan->id) }}"
-                                            class="btn btn-sm btn-outline-warning" title="Edit">
+                                            class="btn btn-sm btn-outline-warning" title="{{ __('ui.edit') }}">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
                                         <form action="{{ route('admin.subscription-plans.destroy', $plan->id) }}"
-                                            method="POST" onsubmit="return confirm('Delete this plan?');">
+                                            method="POST"
+                                            onsubmit="return confirm('{{ __('ui.confirm_delete_plan') }}');">
                                             @csrf
                                             @method('DELETE')
-
-                                            <button class="btn btn-sm btn-outline-warning btn-delete" title="Delete">
+                                            <button class="btn btn-sm btn-outline-warning btn-delete"
+                                                title="{{ __('ui.delete') }}">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
@@ -115,7 +113,7 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center py-5 text-muted">
-                                    No subscription plans found.
+                                    {{ __('ui.no_subscription_plans') }}
                                 </td>
                             </tr>
                         @endforelse
@@ -126,9 +124,10 @@
             {{-- Footer --}}
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <div class="text-muted small">
-                    Showing {{ $plans->firstItem() ?? 0 }}
+                    {{ __('ui.showing') }}
+                    {{ $plans->firstItem() ?? 0 }}
                     – {{ $plans->lastItem() ?? 0 }}
-                    of {{ $plans->total() ?? 0 }}
+                    {{ __('ui.of') }} {{ $plans->total() ?? 0 }}
                 </div>
 
                 <div>

@@ -1,20 +1,20 @@
 @extends('admin.layout')
 
-@section('title', 'Create Subscription Plan')
+@section('title', __('ui.create_subscription_plan'))
 
 @section('content')
 
     {{-- ================= PAGE HEADER ================= --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">Create Subscription Plan</h3>
+            <h3 class="fw-bold mb-1">{{ __('ui.create_subscription_plan') }}</h3>
             <p class="text-muted mb-0">
-                Define pricing, duration, and feature limits
+                {{ __('ui.create_subscription_plan_desc') }}
             </p>
         </div>
 
         <a href="{{ route('admin.subscription-plans.index') }}" class="btn btn-outline-warning">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> {{ __('ui.back') }}
         </a>
     </div>
 
@@ -39,7 +39,7 @@
                 {{-- Plan Name --}}
                 <div class="mb-4">
                     <label class="form-label fw-semibold">
-                        Plan Name <span class="text-danger">*</span>
+                        {{ __('ui.plan_name') }} <span class="text-danger">*</span>
                     </label>
                     <input name="name" class="form-control" placeholder="e.g. Starter, Pro, Enterprise"
                         value="{{ old('name') }}" required>
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label class="form-label fw-semibold">
-                            Price (USD) <span class="text-danger">*</span>
+                            {{ __('ui.price_usd') }} <span class="text-danger">*</span>
                         </label>
                         <input name="price" type="number" step="0.01" class="form-control" placeholder="e.g. 9.99"
                             value="{{ old('price') }}" required>
@@ -57,12 +57,12 @@
 
                     <div class="col-md-6 mb-4">
                         <label class="form-label fw-semibold">
-                            Duration (days) <span class="text-danger">*</span>
+                            {{ __('ui.duration_days') }} <span class="text-danger">*</span>
                         </label>
                         <input name="duration_days" type="number" class="form-control" placeholder="e.g. 30"
                             value="{{ old('duration_days', 30) }}" required>
                         <div class="form-text">
-                            Subscription validity period
+                            {{ __('ui.subscription_validity_help') }}
                         </div>
                     </div>
                 </div>
@@ -71,54 +71,45 @@
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label class="form-label fw-semibold">
-                            Menu Limit
+                            {{ __('ui.menu_limit') }}
                         </label>
                         <input name="menu_limit" type="number" min="0" class="form-control" placeholder="e.g. 10"
                             value="{{ old('menu_limit', 0) }}">
                         <div class="form-text">
-                            Set <strong>0</strong> to disable menu creation
+                            {{ __('ui.menu_limit_help') }}
                         </div>
                     </div>
 
-
                     <div class="col-md-6 mb-4">
                         <label class="form-label fw-semibold">
-                            Staff Limit
+                            {{ __('ui.staff_limit') }}
                         </label>
                         <input name="staff_limit" type="number" min="0" class="form-control" placeholder="e.g. 5"
                             value="{{ old('staff_limit', 0) }}">
                         <div class="form-text">
-                            Set <strong>0</strong> to prevent adding staff users
+                            {{ __('ui.staff_limit_help') }}
                         </div>
                     </div>
-
                 </div>
 
                 {{-- Features --}}
                 <div class="mb-4">
                     <label class="form-label fw-semibold">
-                        Features
+                        {{ __('ui.features') }}
                     </label>
-                    <textarea name="features_text" class="form-control" rows="4" placeholder="One feature per line">{{ old('features_text') }}</textarea>
-                    <div class="form-text">
-                        Example:
-                        <br>• Unlimited QR scans
-                        <br>• Custom branding
-                        <br>• Priority support
-                    </div>
+                    <textarea name="features_text" class="form-control" rows="4" placeholder="{{ __('ui.features_help') }}">{{ old('features_text') }}</textarea>
                 </div>
 
-                {{-- Divider --}}
                 <hr class="my-4">
 
                 {{-- Actions --}}
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
-                        All fields marked * are required
+                        {{ __('ui.all_required_note') }}
                     </div>
 
                     <button class="btn btn-outline-warning px-4">
-                        <i class="bi bi-check-circle"></i> Create Plan
+                        <i class="bi bi-check-circle"></i> {{ __('ui.create_plan') }}
                     </button>
                 </div>
 

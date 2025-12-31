@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Edit User')
+@section('title', __('ui.edit_user'))
 
 @section('content')
 
@@ -10,14 +10,14 @@
             {{-- ================= PAGE HEADER ================= --}}
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h3 class="fw-bold mb-1">Edit User</h3>
+                    <h3 class="fw-bold mb-1">{{ __('ui.edit_user') }}</h3>
                     <p class="text-muted mb-0">
-                        Update user information and role
+                        {{ __('ui.edit_user_desc') }}
                     </p>
                 </div>
 
                 <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-light">
-                    ← Back
+                    ← {{ __('ui.back') }}
                 </a>
             </div>
 
@@ -32,7 +32,7 @@
                         {{-- Name --}}
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Name <span class="text-danger">*</span>
+                                {{ __('ui.name') }} <span class="text-danger">*</span>
                             </label>
                             <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}"
                                 required>
@@ -41,7 +41,7 @@
                         {{-- Email --}}
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Email <span class="text-danger">*</span>
+                                {{ __('ui.email') }} <span class="text-danger">*</span>
                             </label>
                             <input type="email" name="email" class="form-control"
                                 value="{{ old('email', $user->email) }}" required>
@@ -51,32 +51,31 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">
-                                    New Password
+                                    {{ __('ui.new_password') }}
                                 </label>
                                 <input type="password" name="password" class="form-control"
-                                    placeholder="Leave blank to keep current">
+                                    placeholder="{{ __('ui.password_keep_note') }}">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">
-                                    Confirm Password
+                                    {{ __('ui.confirm_password') }}
                                 </label>
                                 <input type="password" name="password_confirmation" class="form-control"
-                                    placeholder="Repeat new password">
+                                    placeholder="{{ __('ui.repeat_new_password') }}">
                             </div>
                         </div>
-                        {{-- ================= RESTAURANT (OWNER ONLY) ================= --}}
-                        @if (auth()->user()->role_id === \App\Models\Role::OWNER)
 
+                        {{-- ================= SHOP (OWNER ONLY) ================= --}}
+                        @if (auth()->user()->role_id === \App\Models\Role::OWNER)
                             <div class="mb-4">
                                 <label class="form-label fw-semibold d-flex align-items-center gap-2">
                                     <i class="bi bi-shop text-warning"></i>
-                                    Restaurant
-                                    <span class="text-danger">*</span>
+                                    {{ __('ui.shop') }} <span class="text-danger">*</span>
                                 </label>
 
                                 <select name="restaurant_id" class="form-select" required>
-                                    <option value="">— Select Restaurant —</option>
+                                    <option value="">— {{ __('ui.select_shop') }} —</option>
 
                                     @foreach ($restaurants as $restaurant)
                                         <option value="{{ $restaurant->id }}"
@@ -87,16 +86,15 @@
                                 </select>
 
                                 <div class="form-text">
-                                    Change which restaurant this staff belongs to
+                                    {{ __('ui.change_user_shop_help') }}
                                 </div>
                             </div>
-
                         @endif
 
                         {{-- Role --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Role <span class="text-danger">*</span>
+                                {{ __('ui.role') }} <span class="text-danger">*</span>
                             </label>
                             <select name="role_id" class="form-select" required>
                                 @foreach ($roles as $role)
@@ -108,22 +106,22 @@
                             </select>
                         </div>
 
-                        {{-- Divider --}}
                         <hr class="my-4">
 
                         {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="text-muted small">
-                                User ID #{{ $user->id }}
+                                {{ __('ui.user_id') }} #{{ $user->id }}
                             </div>
 
                             <div class="d-flex gap-2">
                                 <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-light">
-                                    Cancel
+                                    {{ __('ui.cancel') }}
                                 </a>
 
                                 <button class="btn btn-outline-warning px-4">
-                                    <i class="bi bi-save"></i> Save Changes
+                                    <i class="bi bi-save"></i>
+                                    {{ __('ui.save_changes') }}
                                 </button>
                             </div>
                         </div>

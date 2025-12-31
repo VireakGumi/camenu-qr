@@ -1,18 +1,20 @@
 @extends('admin.layout')
 
-@section('title', 'Edit Restaurant')
+@section('title', __('ui.edit_shop'))
 
 @section('content')
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
+
             {{-- ================= PAGE HEADER ================= --}}
             <div class="mb-4">
-                <h3 class="fw-bold mb-1">Edit Restaurant</h3>
+                <h3 class="fw-bold mb-1">{{ __('ui.edit_shop') }}</h3>
                 <p class="text-muted mb-0">
-                    Update restaurant information and branding
+                    {{ __('ui.edit_shop_desc') }}
                 </p>
             </div>
+
             {{-- ================= CARD ================= --}}
             <div class="card">
                 <div class="card-body p-4 p-lg-5">
@@ -22,10 +24,10 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Restaurant Name --}}
+                        {{-- Shop Name --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Restaurant Name <span class="text-danger">*</span>
+                                {{ __('ui.shop_name') }} <span class="text-danger">*</span>
                             </label>
                             <input type="text" name="name" class="form-control"
                                 value="{{ old('name', $restaurant->name) }}" required>
@@ -34,7 +36,7 @@
                         {{-- Address --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Address
+                                {{ __('ui.address') }}
                             </label>
                             <textarea name="address" class="form-control" rows="3" placeholder="Street, city, country">{{ old('address', $restaurant->address) }}</textarea>
                         </div>
@@ -42,7 +44,7 @@
                         {{-- Phone --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Phone Number
+                                {{ __('ui.phone') }}
                             </label>
                             <input type="text" name="phone" class="form-control" placeholder="e.g. +855 12 345 678"
                                 value="{{ old('phone', $restaurant->phone) }}">
@@ -52,7 +54,7 @@
                         @if ($restaurant->logo)
                             <div class="mb-4">
                                 <label class="form-label fw-semibold d-block">
-                                    Current Logo
+                                    {{ __('ui.current_logo') }}
                                 </label>
 
                                 <div class="d-flex align-items-center gap-3">
@@ -60,7 +62,7 @@
                                         class="rounded-circle border" style="width:96px;height:96px;object-fit:cover;">
 
                                     <div class="small text-muted">
-                                        This logo is currently used on the public menu and QR code
+                                        {{ __('ui.current_logo_desc') }}
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +71,7 @@
                         {{-- Change Logo --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Change Logo
+                                {{ __('ui.change_logo') }}
                             </label>
                             <input type="file" name="logo" class="form-control" accept="image/*">
                             <div class="form-text">
@@ -80,11 +82,11 @@
                         {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                             <a href="{{ route('admin.restaurants.index') }}" class="btn btn-outline-warning">
-                                <i class="bi bi-arrow-left"></i> Back
+                                <i class="bi bi-arrow-left"></i> {{ __('ui.back') }}
                             </a>
 
                             <button class="btn btn-outline-warning px-4">
-                                <i class="bi bi-save"></i> Save Changes
+                                <i class="bi bi-save"></i> {{ __('ui.save_changes') }}
                             </button>
                         </div>
 

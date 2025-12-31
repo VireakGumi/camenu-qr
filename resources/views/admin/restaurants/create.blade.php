@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Create Restaurant')
+@section('title', __('ui.create_shop'))
 
 @section('content')
     <style>
@@ -25,14 +25,15 @@
             pointer-events: none;
         }
     </style>
+
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
             {{-- ================= PAGE HEADER ================= --}}
             <div class="mb-4">
-                <h3 class="fw-bold mb-1">Create Restaurant</h3>
+                <h3 class="fw-bold mb-1">{{ __('ui.create_shop') }}</h3>
                 <p class="text-muted mb-0">
-                    Add a new restaurant and generate its QR menu
+                    {{ __('ui.create_shop_desc') }}
                 </p>
             </div>
 
@@ -43,73 +44,61 @@
                     <form action="{{ route('admin.restaurants.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        {{-- Restaurant Name --}}
+                        {{-- Shop Name --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Restaurant Name <span class="text-danger">*</span>
+                                {{ __('ui.shop_name') }} <span class="text-danger">*</span>
                             </label>
-                            <input type="text" name="name" class="form-control"
-                                placeholder="e.g. Golden Spoon Restaurant" value="{{ old('name') }}" required>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Golden Spoon"
+                                value="{{ old('name') }}" required>
                         </div>
 
                         {{-- Address --}}
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Address</label>
+                            <label class="form-label fw-semibold">{{ __('ui.address') }}</label>
                             <textarea name="address" class="form-control" rows="3" placeholder="Street, city, country">{{ old('address') }}</textarea>
                         </div>
 
                         {{-- Phone --}}
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Phone Number</label>
+                            <label class="form-label fw-semibold">{{ __('ui.phone') }}</label>
                             <input type="text" name="phone" class="form-control" placeholder="e.g. +855 12 345 678"
                                 value="{{ old('phone') }}">
                         </div>
+
+                        {{-- Owner --}}
                         @if (auth()->user()->role_id === \App\Models\Role::ADMIN)
                             <div class="mb-4">
-
-                                {{-- Label --}}
                                 <label class="form-label fw-semibold mb-2 d-flex align-items-center gap-2">
                                     <i class="bi bi-person-badge text-warning"></i>
-                                    Restaurant Owner <span class="text-danger">*</span>
+                                    {{ __('ui.shop_owner') }} <span class="text-danger">*</span>
                                 </label>
 
-                                {{-- Visible input (NAME) --}}
-                                <div class="owner-select-wrapper position-relative">
+                                <div class="position-relative">
                                     <input list="owners-list" id="owner-search" class="form-control owner-input"
-                                        placeholder="Search owner by name or email" autocomplete="off" required>
-
-                                    <span class="owner-icon">
-                                        <i class="bi bi-search"></i>
-                                    </span>
+                                        placeholder="{{ __('ui.search_owner') }}" autocomplete="off" required>
+                                    <span class="owner-icon"><i class="bi bi-search"></i></span>
                                 </div>
 
-                                {{-- Hidden input (ID that will be submitted) --}}
                                 <input type="hidden" name="owner_id" id="owner-id">
 
-                                {{-- Datalist --}}
                                 <datalist id="owners-list">
                                     @foreach ($owners as $owner)
                                         <option value="{{ $owner->name }} ({{ $owner->email }})"
-                                            data-id="{{ $owner->id }}">
-                                        </option>
+                                            data-id="{{ $owner->id }}"></option>
                                     @endforeach
                                 </datalist>
-
-                                <div class="form-text mt-1">
-                                    Start typing owner name or email
-                                </div>
-
                             </div>
                         @endif
 
-                        {{-- ================= SUBSCRIPTION PLAN ================= --}}
+                        {{-- Subscription --}}
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
-                                Subscription Plan <span class="text-danger">*</span>
+                                {{ __('ui.subscription_plan') }} <span class="text-danger">*</span>
                             </label>
 
                             <select name="subscription_plan_id" class="form-select" required>
-                                <option value="">— Select Plan —</option>
+                                <option value="">— {{ __('ui.select_plan') }} —</option>
                                 @foreach ($plans as $plan)
                                     <option value="{{ $plan->id }}"
                                         {{ old('subscription_plan_id') == $plan->id ? 'selected' : '' }}>
@@ -119,17 +108,15 @@
                             </select>
 
                             <div class="form-text">
-                                @if (auth()->user()->role_id === \App\Models\Role::ADMIN)
-                                    Plan will be activated immediately
-                                @else
-                                    Plan will be activated after payment confirmation
-                                @endif
+                                {{ auth()->user()->role_id === \App\Models\Role::ADMIN
+                                    ? __('ui.plan_active_immediately')
+                                    : __('ui.plan_active_after_payment') }}
                             </div>
                         </div>
 
                         {{-- Logo --}}
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Restaurant Logo</label>
+                            <label class="form-label fw-semibold">{{ __('ui.shop_logo') }}</label>
                             <input type="file" name="logo" class="form-control" accept="image/*">
                             <div class="form-text">
                                 Optional • JPG / PNG • Max 2MB • Recommended square image
@@ -139,11 +126,11 @@
                         {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center pt-4 border-top">
                             <a href="{{ route('admin.restaurants.index') }}" class="btn btn-outline-warning">
-                                <i class="bi bi-arrow-left"></i> Back
+                                <i class="bi bi-arrow-left"></i> {{ __('ui.back') }}
                             </a>
 
                             <button class="btn btn-outline-warning px-4">
-                                <i class="bi bi-check-circle"></i> Create Restaurant
+                                <i class="bi bi-check-circle"></i> {{ __('ui.create') }} {{ __('ui.shops') }}
                             </button>
                         </div>
 
@@ -154,20 +141,16 @@
 
         </div>
     </div>
+
     <script>
         document.getElementById('owner-search').addEventListener('input', function() {
             const input = this.value;
             const options = document.querySelectorAll('#owners-list option');
             const hiddenInput = document.getElementById('owner-id');
-
             hiddenInput.value = '';
-
             options.forEach(option => {
-                if (option.value === input) {
-                    hiddenInput.value = option.dataset.id;
-                }
+                if (option.value === input) hiddenInput.value = option.dataset.id;
             });
         });
     </script>
-
 @endsection

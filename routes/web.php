@@ -3,6 +3,18 @@
 use App\Http\Controllers\PublicMenuController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (!in_array($locale, ['en', 'km'])) {
+        abort(400);
+    }
+
+    session(['locale' => $locale]);
+    app()->setLocale($locale);
+
+    return back();
+})->name('lang.switch');
+
+
 Route::get('/', [PublicMenuController::class, 'index'])->name('home');
 
 // Admin menu management dashboard
@@ -68,3 +80,6 @@ Route::prefix('admin')->group(function () {
 Route::get('/menu/{slug}', [PublicMenuController::class, 'show'])
     ->name('public.menu.show');
 
+
+Route::post('/register/order', [\App\Http\Controllers\Admin\Auth\RegisterController::class, 'store'])
+    ->name('register.order');

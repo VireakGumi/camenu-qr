@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Extend Subscription')
+@section('title', __('ui.extend_subscription'))
 
 @section('content')
 
@@ -8,16 +8,16 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h3 class="fw-bold mb-1">
-                Extend Subscription #{{ $subscription->id }}
+                {{ __('ui.extend_subscription') }} #{{ $subscription->id }}
             </h3>
             <p class="text-muted mb-0">
-                Extend subscription based on selected plan duration
+                {{ __('ui.extend_subscription_desc') }}
             </p>
         </div>
 
         <a href="{{ route('admin.restaurant-subscriptions.show', $subscription->id) }}"
             class="btn btn-outline-warning btn-sm">
-            <i class="bi bi-arrow-left"></i> Back
+            <i class="bi bi-arrow-left"></i> {{ __('ui.back') }}
         </a>
     </div>
 
@@ -37,14 +37,14 @@
         <div class="card-body p-4">
 
             <form method="POST" action="{{ route('admin.restaurant-subscriptions.update', $subscription->id) }}"
-                onsubmit="return confirm('Confirm payment received and extend this subscription?');">
+                onsubmit="return confirm('{{ __('ui.confirm_extend_subscription') }}');">
                 @csrf
                 @method('PATCH')
 
-                {{-- Restaurant --}}
+                {{-- Shop --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">
-                        Restaurant
+                        {{ __('ui.shop') }}
                     </label>
                     <input class="form-control" value="{{ $subscription->restaurant->name ?? '—' }}" disabled>
                 </div>
@@ -52,58 +52,59 @@
                 {{-- Current Plan --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">
-                        Current Plan
+                        {{ __('ui.current_plan') }}
                     </label>
                     <input class="form-control"
                         value="{{ $subscription->plan->name ?? ($subscription->subscriptionPlan->name ?? '—') }}" disabled>
                 </div>
 
-                {{-- Current End Date --}}
+                {{-- Current Expiration Date --}}
                 <div class="mb-4">
                     <label class="form-label fw-semibold">
-                        Current Expiration Date
+                        {{ __('ui.current_expiration_date') }}
                     </label>
                     <input class="form-control" value="{{ optional($subscription->ends_at)->format('Y-m-d') ?? '—' }}"
                         disabled>
                 </div>
 
-                {{-- Divider --}}
                 <hr class="my-4">
 
                 {{-- Select New Plan --}}
                 <div class="mb-4">
                     <label class="form-label fw-semibold">
-                        Select Plan to Extend <span class="text-danger">*</span>
+                        {{ __('ui.select_plan_to_extend') }}
+                        <span class="text-danger">*</span>
                     </label>
+
                     <select name="subscription_plan_id" class="form-select" required>
-                        <option value="">— Select Plan —</option>
+                        <option value="">— {{ __('ui.select_plan') }} —</option>
                         @foreach ($plans as $plan)
                             <option value="{{ $plan->id }}"
                                 {{ $subscription->subscription_plan_id == $plan->id ? 'selected' : '' }}>
                                 {{ $plan->name }}
                                 @if (isset($plan->duration_days))
-                                    ({{ $plan->duration_days }} days)
+                                    ({{ $plan->duration_days }} {{ __('ui.days') ?? 'days' }})
                                 @endif
                             </option>
                         @endforeach
                     </select>
 
                     <div class="form-text">
-                        Subscription end date will be extended automatically based on plan duration.
+                        {{ __('ui.extend_plan_help') }}
                     </div>
                 </div>
 
-                {{-- Divider --}}
                 <hr class="my-4">
 
                 {{-- Actions --}}
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
-                        Subscription ID #{{ $subscription->id }}
+                        {{ __('ui.subscription_id') }} #{{ $subscription->id }}
                     </div>
 
                     <button class="btn btn-outline-warning px-4">
-                        <i class="bi bi-arrow-repeat"></i> Extend Subscription
+                        <i class="bi bi-arrow-repeat"></i>
+                        {{ __('ui.extend_subscription') }}
                     </button>
                 </div>
 

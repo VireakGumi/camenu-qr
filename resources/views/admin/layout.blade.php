@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="{{ app()->getLocale() }}" data-theme="light">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title') - Admin Panel</title>
+
+    <title>@yield('title') - {{ __('ui.panel') }}</title>
 
     <link rel="icon" href="{{ asset('img/logo.png') }}">
 
@@ -17,6 +18,7 @@
 
     <!-- Admin UI -->
     <link href="{{ asset('css/admin-ui.css') }}" rel="stylesheet">
+
     @stack('styles')
 </head>
 
@@ -35,26 +37,34 @@
             <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-3 text-decoration-none">
                 <img src="{{ asset('img/logo.png') }}" width="44" class="rounded-circle brand-logo" alt="CaMenu QR">
                 <div>
-                    <div class="small text-muted">Admin</div>
-                    <div class="fw-bold brand-title">Panel</div>
+                    <div class="small text-muted">{{ __('ui.admin') }}</div>
+                    <div class="fw-bold brand-title">{{ __('ui.panel') }}</div>
                 </div>
             </a>
 
             <!-- Right -->
             <ul class="navbar-nav ms-auto align-items-center gap-2">
 
-                {{-- <!-- Theme toggle -->
-                <li class="nav-item">
-                    <button onclick="toggleTheme()" class="btn btn-theme-toggle" title="Toggle theme">
-                        <i class="bi bi-moon-stars"></i>
-                    </button>
-                </li> --}}
+                <!-- 🌐 Language Switch -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        🌐 {{ app()->getLocale() === 'km' ? 'ខ្មែរ' : 'EN' }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'km') }}">🇰🇭 ខ្មែរ</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">🇬🇧 English</a>
+                        </li>
+                    </ul>
+                </li>
 
                 <!-- User dropdown -->
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-center gap-2" href="#"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            role="button" data-bs-toggle="dropdown">
                             <img src="{{ $user->avatar
                                 ? asset('storage/avatars/' . $user->avatar)
                                 : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
@@ -65,12 +75,12 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
-                                    <i class="bi bi-person me-2"></i> My Profile
+                                    <i class="bi bi-person me-2"></i> {{ __('ui.my_profile') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
-                                    <i class="bi bi-pencil me-2"></i> Edit Profile
+                                    <i class="bi bi-pencil me-2"></i> {{ __('ui.edit_profile') }}
                                 </a>
                             </li>
                             <li>
@@ -80,7 +90,7 @@
                                 <form method="POST" action="{{ route('admin.logout') }}">
                                     @csrf
                                     <button class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                        <i class="bi bi-box-arrow-right me-2"></i> {{ __('ui.logout') }}
                                     </button>
                                 </form>
                             </li>
@@ -102,57 +112,51 @@
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                         href="{{ route('admin.dashboard') }}">
-                        <i class="bi bi-house"></i> Dashboard
+                        <i class="bi bi-house"></i> {{ __('ui.dashboard') }}
                     </a>
                 </li>
 
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
                         href="{{ route('admin.categories.index') }}">
-                        <i class="bi bi-tags"></i> Categories
+                        <i class="bi bi-tags"></i> {{ __('ui.categories') }}
                     </a>
                 </li>
 
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.restaurants.*') ? 'active' : '' }}"
                         href="{{ route('admin.restaurants.index') }}">
-                        <i class="bi bi-shop"></i> Restaurants
+                        <i class="bi bi-shop"></i> {{ __('ui.shops') }}
                     </a>
                 </li>
 
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
                         href="{{ route('admin.users.index') }}">
-                        <i class="bi bi-people"></i> Users
+                        <i class="bi bi-people"></i> {{ __('ui.users') }}
                     </a>
                 </li>
 
-                {{-- <li @if ($role->name !== 'admin') style="display: none;" @endif>
-                    <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}"
-                        href="{{ route('admin.menus.index') }}">
-                        <i class="bi bi-card-list"></i> Menus
-                    </a>
-                </li> --}}
+                @if ($role?->name === 'admin')
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.restaurant-subscriptions.*') ? 'active' : '' }}"
+                            href="{{ route('admin.restaurant-subscriptions.index') }}">
+                            <i class="bi bi-card-checklist"></i> {{ __('ui.subscriptions') }}
+                        </a>
+                    </li>
 
-                <li @if ($role->name !== 'admin') style="display: none;" @endif>
-                    <a class="nav-link {{ request()->routeIs('admin.restaurant-subscriptions.*') ? 'active' : '' }}"
-                        href="{{ route('admin.restaurant-subscriptions.index') }}">
-                        <i class="bi bi-card-checklist"></i> Subscriptions
-                    </a>
-                </li>
-
-                <li @if ($role->name !== 'admin') style="display: none;" @endif>
-                    <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}"
-                        href="{{ route('admin.subscription-plans.index') }}">
-                        <i class="bi bi-stickies"></i>Plans
-                    </a>
-                </li>
-
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}"
+                            href="{{ route('admin.subscription-plans.index') }}">
+                            <i class="bi bi-stickies"></i> {{ __('ui.plans') }}
+                        </a>
+                    </li>
+                @endif
 
             </ul>
 
             <div class="sidebar-footer">
-                Version 1.0
+                {{ __('ui.version') }} 1.0
             </div>
         </aside>
 
@@ -177,13 +181,11 @@
     <script>
         function toggleTheme() {
             const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
         }
 
-        // Init theme
         (() => {
             const saved = localStorage.getItem('theme');
             if (saved) document.documentElement.setAttribute('data-theme', saved);

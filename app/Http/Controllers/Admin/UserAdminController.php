@@ -19,9 +19,10 @@ class UserAdminController extends Controller
         $q = $request->query('q');
         $users = User::with('role');
         if ($user->role_id == Role::OWNER) {
-            $users->where('role_id', '!=', Role::ADMIN);
+            $users = $users->where('role_id', '!=', Role::ADMIN)->where('role_id', '!=', Role::OWNER);
+            $users = $users->whereHas('restaurant',                     fn($q) =>
+            $q->where('owner_id', $user->id));
         }
-
 
         $users = $users->when($q, fn($qb) => $qb->where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%"))
             ->orderBy('created_at', 'desc')

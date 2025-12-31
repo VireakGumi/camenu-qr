@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Category')
+@section('title', __('ui.category_details'))
 
 @section('content')
 
@@ -10,14 +10,14 @@
             {{-- Page Header --}}
             <div class="mb-4 d-flex justify-content-between align-items-start">
                 <div>
-                    <h3 class="fw-bold mb-1">Category Details</h3>
+                    <h3 class="fw-bold mb-1">{{ __('ui.category_details') }}</h3>
                     <p class="text-muted mb-0">
-                        View category information
+                        {{ __('ui.view_category_info') }}
                     </p>
                 </div>
 
                 <a href="{{ route('admin.categories.index') }}" class="btn btn-light">
-                    ← Back
+                    ← {{ __('ui.back') }}
                 </a>
             </div>
 
@@ -28,17 +28,17 @@
                     {{-- Category Name --}}
                     <div class="mb-4">
                         <label class="text-muted small fw-semibold">
-                            Category Name
+                            {{ __('ui.category_name') }}
                         </label>
                         <div class="fs-5 fw-bold">
                             {{ $category->name }}
                         </div>
                     </div>
 
-                    {{-- Restaurant --}}
+                    {{-- Shop --}}
                     <div class="mb-4">
                         <label class="text-muted small fw-semibold">
-                            Restaurant
+                            {{ __('ui.shop') }}
                         </label>
                         <div class="fs-6">
                             {{ $category->restaurant?->name ?? '—' }}
@@ -51,20 +51,21 @@
                     {{-- Actions --}}
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="text-muted small">
-                            Category ID #{{ $category->id }}
+                            {{ __('ui.category_id') }} #{{ $category->id }}
                         </div>
 
                         <div class="d-flex gap-2">
-                            <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-outline-secondary">
-                                Edit
+                            <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                class="btn btn-outline-secondary">
+                                {{ __('ui.edit') }}
                             </a>
 
                             <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
-                                onsubmit="return confirm('Delete this category?');">
+                                onsubmit="return confirm('{{ __('ui.delete_category_confirm') }}');">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger">
-                                    Delete
+                                    {{ __('ui.delete') }}
                                 </button>
                             </form>
                         </div>
