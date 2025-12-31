@@ -30,6 +30,8 @@ class PublicMenuController extends Controller
 
     public function index()
     {
+        app()->setLocale('en');
+        session()->forget('locale');
         $plans = SubscriptionPlan::query()
             ->select(
                 'id',
