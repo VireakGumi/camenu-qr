@@ -81,7 +81,7 @@ class CategoryAdminController extends Controller
         }
 
         // Check feature permission
-        $features = $subscription->subscriptionPlan->features ?? [];
+        $features = $subscription->plan->features ?? [];
 
         if (!in_array('categories', $features)) {
             return back()->withErrors([
