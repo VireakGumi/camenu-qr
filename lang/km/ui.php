@@ -114,7 +114,7 @@ return [
     'no_category' => 'គ្មានប្រភេទ',
 
     'item_image' => 'រូបភាព',
-    'image_hint' => 'JPG/PNG • អតិ. 2MB',
+    'image_hint' => 'JPG/PNG • អតិ. 5MB',
 
     'create_item' => 'បង្កើតទំនិញ',
     'update_item' => 'រក្សាទុក',

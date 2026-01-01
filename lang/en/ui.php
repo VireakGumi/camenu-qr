@@ -347,7 +347,7 @@ return [
     'no_category' => 'No Category',
 
     'item_image' => 'Item Image',
-    'image_hint' => 'JPG / PNG • Max 2MB • Recommended square image',
+    'image_hint' => 'JPG / PNG • Max 5MB • Recommended square image',
 
     'create_item' => 'Create Item',
 
