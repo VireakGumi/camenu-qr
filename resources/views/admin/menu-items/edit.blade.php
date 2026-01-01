@@ -1,32 +1,47 @@
 @extends('admin.layout')
 
-@section('title', 'Edit Menu Item')
+@section('title', __('ui.edit_menu_item'))
 
 @section('content')
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
+            {{-- ================= PAGE HEADER ================= --}}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">
+                        {{ __('ui.edit_menu_item') }}
+                    </h3>
+                    <p class="text-muted mb-0">
+                        {{ __('ui.edit_menu_item_desc') }}
+                    </p>
+                </div>
+
+                <a href="{{ route('admin.restaurants.show', $menuItem->menu->restaurant_id) }}" class="btn btn-light">
+                    ← {{ __('ui.back') }}
+                </a>
+            </div>
+
+            {{-- ================= ERRORS ================= --}}
+            @if ($errors->any())
+                <div class="alert alert-danger shadow-sm">
+                    <div class="fw-semibold mb-2">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        {{ __('ui.fix_errors') }}
+                    </div>
+
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- ================= CARD ================= --}}
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4">
-
-                    {{-- Header --}}
-                    <div class="mb-4">
-                        <h3 class="fw-bold mb-1">Edit Menu Item</h3>
-                        <p class="text-muted mb-0">
-                            Update item details for your restaurant menu
-                        </p>
-                    </div>
-                    {{-- 🔴 Validation Errors --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger mb-4">
-                            <ul class="mb-0 ps-3">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
 
                     {{-- Context --}}
                     <div class="alert alert-light border d-flex align-items-center gap-3 mb-4">
@@ -40,7 +55,7 @@
                                 {{ $menuItem->menu->restaurant->name }}
                             </div>
                             <div class="small text-muted">
-                                Menu ID #{{ $menuItem->menu_id }}
+                                {{ __('ui.menu_id') }} #{{ $menuItem->menu_id }}
                             </div>
                         </div>
                     </div>
@@ -50,38 +65,60 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Item Name --}}
+                        {{-- ITEM NAME --}}
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Item Name <span class="text-danger">*</span>
+                                {{ __('ui.item_name') }} <span class="text-danger">*</span>
                             </label>
-                            <input type="text" name="name" class="form-control"
-                                value="{{ old('name', $menuItem->name) }}" required>
+
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name', $menuItem->name) }}"
+                                placeholder="{{ __('ui.item_name_placeholder') }}" required>
+
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        {{-- Description --}}
+                        {{-- DESCRIPTION --}}
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Description</label>
-                            <textarea name="description" class="form-control" rows="3" placeholder="Short description for customers">{{ old('description', $menuItem->description) }}</textarea>
+                            <label class="form-label fw-semibold">
+                                {{ __('ui.description') }}
+                            </label>
+
+                            <textarea name="description" class="form-control" rows="3"
+                                placeholder="{{ __('ui.item_description_placeholder') }}">{{ old('description', $menuItem->description) }}</textarea>
                         </div>
 
-                        {{-- Price & Category --}}
+                        {{-- PRICE & CATEGORY --}}
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">
-                                    Price <span class="text-danger">*</span>
+                                    {{ __('ui.price') }} <span class="text-danger">*</span>
                                 </label>
+
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" name="price" step="0.01" min="0" class="form-control"
+                                    <input type="number" name="price" step="0.01" min="0"
+                                        class="form-control @error('price') is-invalid @enderror"
                                         value="{{ old('price', $menuItem->price) }}" required>
                                 </div>
+
+                                @error('price')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-semibold">Category</label>
+                                <label class="form-label fw-semibold">
+                                    {{ __('ui.category') }}
+                                </label>
+
                                 <select name="category_id" class="form-select">
-                                    <option value="">— No Category —</option>
+                                    <option value="">
+                                        — {{ __('ui.no_category') }} —
+                                    </option>
+
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
                                             {{ old('category_id', $menuItem->category_id) == $category->id ? 'selected' : '' }}>
@@ -92,36 +129,50 @@
                             </div>
                         </div>
 
-                        {{-- Current Image --}}
+                        {{-- CURRENT IMAGE --}}
                         @if ($menuItem->image)
                             <div class="mb-3">
                                 <label class="form-label fw-semibold d-block">
-                                    Current Image
+                                    {{ __('ui.current_image') }}
                                 </label>
+
                                 <img src="{{ asset('storage/images/' . $menuItem->image) }}" class="rounded border"
                                     style="max-height:140px;object-fit:cover;">
                             </div>
                         @endif
 
-                        {{-- Change Image --}}
+                        {{-- CHANGE IMAGE --}}
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Change Image</label>
+                            <label class="form-label fw-semibold">
+                                {{ __('ui.change_image') }}
+                            </label>
+
                             <input type="file" name="image" class="form-control">
+
                             <div class="form-text">
-                                Leave empty to keep the current image
+                                {{ __('ui.keep_current_image') }}
                             </div>
                         </div>
 
-                        {{-- Actions --}}
-                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                            <a href="{{ route('admin.restaurants.show', $menuItem->menu->restaurant_id) }}"
-                                class="btn btn-light">
-                                ← Cancel
-                            </a>
+                        <hr class="my-4">
 
-                            <button class="btn btn-primary px-4">
-                                Update Item
-                            </button>
+                        {{-- ACTIONS --}}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                {{ __('ui.menu_id') }} #{{ $menuItem->menu_id }}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.restaurants.show', $menuItem->menu->restaurant_id) }}"
+                                    class="btn btn-light">
+                                    {{ __('ui.cancel') }}
+                                </a>
+
+                                <button class="btn btn-outline-warning px-4">
+                                    <i class="bi bi-save"></i>
+                                    {{ __('ui.update_item') }}
+                                </button>
+                            </div>
                         </div>
 
                     </form>

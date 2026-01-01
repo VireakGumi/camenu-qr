@@ -71,25 +71,66 @@ a:hover {
 }
 
 /* =====================================================
-   NAVBAR
+   NAVBAR – BASE
 ===================================================== */
 .navbar-admin {
     background: var(--navbar-bg);
     border-bottom: 1px solid var(--border);
-    padding: .75rem 1.5rem;
-    /* add box shadow */
+    padding: .6rem 1rem;
     box-shadow: 0 2px 4px rgba(67, 37, 1, 0.08);
 }
 
+/* Brand wrapper */
+.navbar-brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    min-width: 0;
+}
+
+/* Logo */
 .brand-logo {
-    background: #fff;
+    width: 40px;
+    height: 40px;
     padding: 4px;
+    background: #fff;
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+    object-fit: cover;
+}
+
+/* Brand text */
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
 }
 
 .brand-title {
+    font-size: 1rem;
     color: var(--text);
+    white-space: nowrap;
+}
+
+/* Right nav items */
+.navbar-admin .nav-link {
+    font-size: .9rem;
+    padding: .45rem .55rem;
+    white-space: nowrap;
+}
+
+/* Avatar */
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    border-radius: .75rem;
+    font-size: .9rem;
 }
 
 /* =====================================================
@@ -362,5 +403,106 @@ a:hover {
 
     .content-area {
         padding: 20px;
+    }
+}
+
+/* ================= MOBILE RESPONSIVE ADMIN ================= */
+@media (max-width: 576px) {
+
+    .navbar-admin {
+        padding: .45rem .75rem;
+    }
+
+    /* Brand shrink */
+    .brand-logo {
+        width: 34px;
+        height: 34px;
+        padding: 3px;
+    }
+
+    .brand-title {
+        font-size: .95rem;
+    }
+
+    /* Hide long texts */
+    .brand-text .small,
+    .user-name {
+        display: none !important;
+    }
+
+    /* Compact nav icons */
+    .navbar-admin .nav-link {
+        font-size: .85rem;
+        padding: .35rem .45rem;
+    }
+
+    /* Dropdown touch friendly */
+    .dropdown-menu {
+        font-size: .85rem;
+        min-width: 160px;
+    }
+
+    /* Page titles */
+    h3.fw-bold {
+        font-size: 1.25rem;
+    }
+
+    p.text-muted {
+        font-size: 0.85rem;
+    }
+
+    /* Cards */
+    .card-body {
+        padding: 1.25rem !important;
+    }
+
+    /* Form labels */
+    .form-label {
+        font-size: 0.85rem;
+    }
+
+    /* Inputs & selects */
+    .form-control,
+    .form-select,
+    .input-group-text {
+        font-size: 0.9rem;
+        padding: 0.45rem 0.65rem;
+    }
+
+    /* Buttons */
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.45rem 0.75rem;
+    }
+
+    /* Header action buttons row */
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.75rem;
+    }
+
+    /* Context alert (logo + text) */
+    .alert.d-flex.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+    }
+
+    /* Images (menu / logo previews) */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Footer action buttons */
+    .d-flex.justify-content-between.align-items-center.pt-3 {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .d-flex.justify-content-between.align-items-center.pt-3 .btn {
+        width: 100%;
     }
 }

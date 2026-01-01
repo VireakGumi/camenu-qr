@@ -59,7 +59,7 @@ class MenuItemAdminController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
-            'image'       => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $menu = Menu::with('restaurant.subscriptions.plan')->findOrFail($request->menu_id);
@@ -177,7 +177,7 @@ class MenuItemAdminController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $menuItem->update(

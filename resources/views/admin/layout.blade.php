@@ -33,32 +33,46 @@
 <body>
 
     <!-- ================= NAVBAR ================= -->
-    <nav class="navbar navbar-expand-lg navbar-admin">
+    <nav class="navbar navbar-expand-lg navbar-admin shadow-sm">
         <div class="container-fluid">
 
             <!-- Brand -->
-            <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-3 text-decoration-none">
-                <img src="{{ asset('img/logo.png') }}" width="44" class="rounded-circle brand-logo" alt="CaMenu QR">
-                <div>
-                    <div class="small text-muted">{{ __('ui.admin') }}</div>
-                    <div class="fw-bold brand-title">{{ __('ui.panel') }}</div>
+            <a href="{{ route('admin.dashboard') }}"
+                class="d-flex align-items-center gap-2 text-decoration-none navbar-brand-wrap">
+
+                <img src="{{ asset('img/logo.png') }}" class="rounded-circle brand-logo" alt="CaMenu QR">
+
+                <div class="brand-text">
+                    <div class="small text-muted d-none d-md-block">
+                        {{ __('ui.admin') }}
+                    </div>
+                    <div class="fw-bold brand-title">
+                        {{ __('ui.panel') }}
+                    </div>
                 </div>
             </a>
 
             <!-- Right -->
-            <ul class="navbar-nav ms-auto align-items-center gap-2">
+            <ul class="navbar-nav ms-auto align-items-center gap-1">
 
                 <!-- 🌐 Language Switch -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        🌐 {{ app()->getLocale() === 'km' ? 'ខ្មែរ' : 'EN' }}
+                    <a class="nav-link dropdown-toggle nav-icon" href="#" data-bs-toggle="dropdown">
+                        🌐 <span class="d-none d-md-inline">
+                            {{ app()->getLocale() === 'km' ? 'ខ្មែរ' : 'EN' }}
+                        </span>
                     </a>
+
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                         <li>
-                            <a class="dropdown-item" href="{{ route('lang.switch', 'km') }}">🇰🇭 ខ្មែរ</a>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'km') }}">
+                                🇰🇭 ខ្មែរ
+                            </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">🇬🇧 English</a>
+                            <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">
+                                🇬🇧 English
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -67,23 +81,29 @@
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-center gap-2" href="#"
-                            role="button" data-bs-toggle="dropdown">
+                            data-bs-toggle="dropdown">
+
                             <img src="{{ $user->avatar
                                 ? asset('storage/avatars/' . $user->avatar)
                                 : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
-                                class="rounded-circle" style="width:32px;height:32px;object-fit:cover;">
-                            <span>{{ $user->name }}</span>
+                                class="rounded-circle user-avatar">
+
+                            <span class="d-none d-md-inline user-name">
+                                {{ $user->name }}
+                            </span>
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
-                                    <i class="bi bi-person me-2"></i> {{ __('ui.my_profile') }}
+                                    <i class="bi bi-person me-2"></i>
+                                    {{ __('ui.my_profile') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
-                                    <i class="bi bi-pencil me-2"></i> {{ __('ui.edit_profile') }}
+                                    <i class="bi bi-pencil me-2"></i>
+                                    {{ __('ui.edit_profile') }}
                                 </a>
                             </li>
                             <li>
@@ -93,7 +113,8 @@
                                 <form method="POST" action="{{ route('admin.logout') }}">
                                     @csrf
                                     <button class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right me-2"></i> {{ __('ui.logout') }}
+                                        <i class="bi bi-box-arrow-right me-2"></i>
+                                        {{ __('ui.logout') }}
                                     </button>
                                 </form>
                             </li>
@@ -104,6 +125,7 @@
             </ul>
         </div>
     </nav>
+
 
     <!-- ================= LAYOUT ================= -->
     <div class="d-flex">

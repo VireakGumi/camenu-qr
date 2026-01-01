@@ -332,4 +332,34 @@ return [
     'owner_email' => 'Owner Email',
     'continue_payment' => 'Continue to Payment',
 
+    'create_menu_item' => 'Create Menu Item',
+    'create_menu_item_desc' => 'Add a new item to your shop menu',
+
+    'menu_id' => 'Menu ID',
+
+    'item_name' => 'Item Name',
+    'item_name_placeholder' => 'e.g. Grilled Chicken',
+
+    'description' => 'Description',
+    'item_description_placeholder' => 'Short description for customers',
+
+    'category' => 'Category',
+    'no_category' => 'No Category',
+
+    'item_image' => 'Item Image',
+    'image_hint' => 'JPG / PNG • Max 2MB • Recommended square image',
+
+    'create_item' => 'Create Item',
+
+    'edit_menu_item' => 'Edit Menu Item',
+    'edit_menu_item_desc' => 'Update item details for your shop menu',
+
+    // Image
+    'current_image' => 'Current Image',
+    'change_image' => 'Change Image',
+    'keep_current_image' => 'Leave empty to keep the current image',
+
+    // Actions
+    'update_item' => 'Update Item',
+
 ];
