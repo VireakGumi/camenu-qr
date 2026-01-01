@@ -66,9 +66,8 @@
                                         </span>
                                     @endif
                                 </td>
-
                                 <td class="text-muted">
-                                    {{ optional($sub->ends_at)->format('Y-m-d') ?? '—' }}
+                                    {{ optional(\Carbon\Carbon::parse($sub->ends_at))->format('Y-m-d') ?? '—' }}
                                 </td>
 
                                 <td class="text-muted">

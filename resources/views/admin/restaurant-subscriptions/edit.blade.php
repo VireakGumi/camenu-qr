@@ -63,8 +63,8 @@
                     <label class="form-label fw-semibold">
                         {{ __('ui.current_expiration_date') }}
                     </label>
-                    <input class="form-control" value="{{ optional($subscription->ends_at)->format('Y-m-d') ?? '—' }}"
-                        disabled>
+                    <input class="form-control"
+                        value="{{ optional(\Carbon\Carbon::parse($subscription->ends_at))->format('Y-m-d') ?? '—' }}" disabled>
                 </div>
 
                 <hr class="my-4">

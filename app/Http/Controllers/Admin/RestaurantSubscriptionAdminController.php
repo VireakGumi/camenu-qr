@@ -41,9 +41,12 @@ class RestaurantSubscriptionAdminController extends Controller
             });
         }
 
+
         $subscriptions = $query
             ->paginate(15)
             ->withQueryString();
+
+        // dd($subscriptions);
 
         return view('admin.restaurant-subscriptions.index', compact('subscriptions'));
     }
@@ -83,7 +86,7 @@ class RestaurantSubscriptionAdminController extends Controller
         // 🔹 Get base date:
         // If still active → extend from current end
         // If expired → extend from today
-        $baseDate = $subscription->ends_at && $subscription->ends_at->isFuture()
+        $baseDate = $subscription->ends_at
             ? Carbon::parse($subscription->ends_at)
             : now();
 

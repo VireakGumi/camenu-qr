@@ -70,12 +70,12 @@
 
                 <dt class="col-sm-3 text-muted">{{ __('ui.starts_at') }}</dt>
                 <dd class="col-sm-9 text-muted">
-                    {{ optional($subscription->starts_at)->format('Y-m-d') ?? '—' }}
+                    {{ optional(\Carbon\Carbon::parse($subscription->starts_at))->format('Y-m-d') ?? '—' }}
                 </dd>
 
                 <dt class="col-sm-3 text-muted">{{ __('ui.ends_at') }}</dt>
                 <dd class="col-sm-9 text-muted">
-                    {{ optional($subscription->ends_at)->format('Y-m-d') ?? '—' }}
+                    {{ optional(\Carbon\Carbon::parse($subscription->ends_at))->format('Y-m-d') ?? '—' }}
                 </dd>
 
                 <dt class="col-sm-3 text-muted">{{ __('ui.created_at') }}</dt>
