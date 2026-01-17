@@ -5,9 +5,11 @@ on:
     inputs:
       tag: { required: true, type: string }
       latest_tag: { required: true, type: string }
+
 permissions:
   contents: read
   packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest

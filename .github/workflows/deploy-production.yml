@@ -2,7 +2,11 @@ name: Deploy Production (EC2)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -19,7 +23,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: main   # ensure we get main branch
+          ref: main # ensure we get main branch
 
       - name: Compute lowercase owner
         id: img
